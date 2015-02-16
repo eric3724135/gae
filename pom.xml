@@ -23,11 +23,11 @@
 	<dependencies>
 		<!-- Deploy 時請註解掉 不然他會抓不到appengine-api-1.0-sdk.version.jar -->
 		<!-- Compile/runtime dependencies -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>com.google.appengine</groupId> -->
-<!-- 			<artifactId>appengine-api-1.0-sdk</artifactId> -->
-<!-- 			<version>${appengine.app.version}</version> -->
-<!-- 		</dependency> -->
+		<dependency>
+			<groupId>com.google.appengine</groupId>
+			<artifactId>appengine-api-1.0-sdk</artifactId>
+			<version>${appengine.app.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
@@ -39,28 +39,29 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
-			<version>${spring.version}</version>
+			<version>4.0.5.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>${spring.version}</version>
+			<version>4.0.5.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>4.0.5.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>${hibernate.version}</version>
+			<version>4.3.6.Final</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
+
 
 		<!-- Test Dependencies -->
 		<dependency>
@@ -79,22 +80,26 @@
 
 	<build>
 		<!-- for hot reload of the web application -->
-		<outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</outputDirectory>
+		<!-- <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/lib</outputDirectory> -->
+		<outputDirectory>target/${project.artifactId}-${project.version}/WEB-INF/classes</outputDirectory>
+
+		<!-- <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</outputDirectory> -->
+		<!-- <pluginManagement> -->
 		<plugins>
-			<!-- <plugin> -->
-			<!-- <groupId>org.codehaus.mojo</groupId> -->
-			<!-- <artifactId>versions-maven-plugin</artifactId> -->
-			<!-- <version>2.1</version> -->
-			<!-- <executions> -->
-			<!-- <execution> -->
-			<!-- <phase>compile</phase> -->
-			<!-- <goals> -->
-			<!-- <goal>display-dependency-updates</goal> -->
-			<!-- <goal>display-plugin-updates</goal> -->
-			<!-- </goals> -->
-			<!-- </execution> -->
-			<!-- </executions> -->
-			<!-- </plugin> -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<version>2.1</version>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>display-dependency-updates</goal>
+							<goal>display-plugin-updates</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<version>3.1</version>
@@ -120,7 +125,25 @@
 					</webResources>
 				</configuration>
 			</plugin>
-
+			<!-- <plugin> -->
+			<!-- <groupId>org.apache.maven.plugins</groupId> -->
+			<!-- <artifactId>maven-dependency-plugin</artifactId> -->
+			<!-- <executions> -->
+			<!-- <execution> -->
+			<!-- <id>copy-dependencies</id> -->
+			<!-- <phase>prepare-package</phase> -->
+			<!-- <goals> -->
+			<!-- <goal>copy-dependencies</goal> -->
+			<!-- </goals> -->
+			<!-- <configuration> -->
+			<!-- <outputDirectory>${project.build.directory}/classes/lib</outputDirectory> -->
+			<!-- <overWriteReleases>false</overWriteReleases> -->
+			<!-- <overWriteSnapshots>false</overWriteSnapshots> -->
+			<!-- <overWriteIfNewer>true</overWriteIfNewer> -->
+			<!-- </configuration> -->
+			<!-- </execution> -->
+			<!-- </executions> -->
+			<!-- </plugin> -->
 			<plugin>
 				<groupId>com.google.appengine</groupId>
 				<artifactId>appengine-maven-plugin</artifactId>
@@ -137,5 +160,43 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<!-- </pluginManagement> -->
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.codehaus.mojo
+										</groupId>
+										<artifactId>
+											versions-maven-plugin
+										</artifactId>
+										<versionRange>
+											[2.1,)
+										</versionRange>
+										<goals>
+											<goal>
+												display-dependency-updates
+											</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 </project>
